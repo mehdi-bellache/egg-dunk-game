@@ -4,19 +4,26 @@
 
 <head>
 	<meta charset="UTF-8"/>
-	<title>PAGE TITLE</title>
+	<title>attrapez les tous</title>
 	<meta name="author" content="your name"/>
 
-	<link rel="stylesheet" type="text/css" href="./style/style.css" title="starship style"/>
+	<link rel="stylesheet" type="text/css" href="./style/style.css"/>
 </head>
 
 <body>
 
-	<h1>Your page</h1>
+  	<canvas id="playfield" width="1000" height="600" tabindex="1"></canvas>
 
-	<p>Write your html code here.</p>
+    <div id="control">
+  	    <button id="stopAndStartGame">Start</button>
+  	    score  : <span id="score"> 0 </span>
+  	</div>
+    <div>
+        <img src="images/rocket128-vertical.png" alt="" id="life-1"/>
+        <img src="images/rocket128-vertical.png" alt="" id="life-2"/>
+        <img src="images/rocket128-vertical.png" alt="" id="life-3"/>
+    </div>
 
-	<p>Consultez la console pour la trace de création du bundle&nbsp;: <kbd>Ctrl+Shift+K</kbd></p>
 
 </body>
 
