@@ -44,7 +44,8 @@ module.exports = {
                      '@babel/transform-runtime'
                   ]
                }
-            }
+            },
+
          },
          {
             test: /\.css$/i,
@@ -99,7 +100,7 @@ module.exports = {
    // gestion de bibliothèques externes à exclure du bundle, ici cas de React
    externals: {
       react: 'React',
-      'react-dom/client': 'ReactDOM'
+      reactdom: 'ReactDom'
    },
 
 
