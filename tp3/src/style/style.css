@@ -63,7 +63,6 @@ kbd {
 }
 
 #playfield {
-   width: 400px;
    display: block;
    margin: 20px auto;
    background-image: url("../images/decor-500.png");
