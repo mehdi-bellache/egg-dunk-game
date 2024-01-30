@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -94,18 +93,6 @@ module.exports = {
             },
          ]
       }),
-   ],
+   ]
 
-
-   // gestion de bibliothèques externes à exclure du bundle, ici cas de React
-   externals: {
-      react: 'React',
-      reactdom: 'ReactDom'
-   },
-
-
-   optimization: {
-      minimize: true,
-      minimizer: [new TerserPlugin()]
-   }
 }

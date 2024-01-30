@@ -16,7 +16,7 @@ tp3$  npm install
     Comme dans le TP précédent, profitez des facilités offertes par Webpack pendant la phase de développement pour construire le bundle et visualiser les résultats "à chaud" en démarrant le serveur de développement :Après chaque modification, il faut générer le <q>nouveau</q> <i>bundle</i>, toujours à l'aide de la commande <code>npm run build</code> et c'est le fichier **`dist`**`/index.html` qu'il faut consulter pour avoir le résultat
 
 ```bash
-tp2$  npm run dev-server
+tp3$  npm run dev-server
 ```
 
   **C'est la solution que l'on vous conseille d'adopter.**
