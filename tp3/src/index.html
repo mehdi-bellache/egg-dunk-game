@@ -4,31 +4,27 @@
 
 <head>
    <meta charset="UTF-8" />
-   <title>Tir à l'arc</title>
+   <title>Miam : mangez des fruits !</title>
    <meta name="author" content="your name" />
+
    <link rel="stylesheet" type="text/css" href="./style/style.css" />
 </head>
 
 <body>
-   <h2>Tir à l'arc</h2>
-   <p>
-      Tirez sur les cibles pour gagner des points,
-      récupérez les flèches (trois à la fois), 
-      attention aux oiseaux.
-   </p>
+   <h2>Miam : mangez des fruits !</h2>
+   
+   <p>Mangez les fruits pour marquer des points, attention aux <i>blackies</i> qui mangent les fruits... ou vous... et se multiplient quand ils ont suffisamment mangé.</p>
 
    <div id="game">
       <div id="info">
          <div id="scoreZone">
             <div id="score"> 0 </div>pts
          </div>
-         <div id="arrows">
-            <img src="./images/fleches.png"> : <span id="nbArrows">0</span>
-         </div>
+         
          <div id="lifes">
-            <img src="images/arc.png" alt="" id="life-1" />
-            <img src="images/arc.png" alt="" id="life-2" />
-            <img src="images/arc.png" alt="" id="life-3" />
+            <img src="images/greedy64.png" alt="" id="life-1" />
+            <img src="images/greedy64.png" alt="" id="life-2" />
+            <img src="images/greedy64.png" alt="" id="life-3" />
          </div>
 
          <div id="control">
@@ -36,7 +32,9 @@
          </div>
       </div>
       <div id="field">
-         <canvas id="playfield" width="500" height="580" tabindex="1"></canvas>
+         <div id="cover">
+         <canvas id="playfield" width="800" height="450" tabindex="1"></canvas>
+      </div>   
       </div>
    </div>
 

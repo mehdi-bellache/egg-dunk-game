@@ -1,4 +1,4 @@
-# TP 3  
+# TP 3 : Projet 1 - mangez des fruits
 
 ## Mise en place du TP
 
@@ -28,3 +28,5 @@ tp3$  npm run dev-server
 ## Votre travail
 
 Expliquez ici comment exécuter votre projet. Vous pouvez également ajouter toute précision utile sur votre travail.
+
+### Travail réalisé
