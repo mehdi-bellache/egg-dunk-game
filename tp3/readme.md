@@ -1,4 +1,4 @@
-# TP 3 : Projet 1 - mangez des fruits
+# TP 3 : Projet 1 - starship
 
 ## Mise en place du TP
 
