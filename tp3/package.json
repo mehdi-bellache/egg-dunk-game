@@ -1,5 +1,5 @@
 {
-   "name": "arrows",
+   "name": "projet1-js-s4",
    "description": "petit jeu - projet 1 - JS S4",
    "author": "your name",
    "version": "1.0.0",
@@ -14,7 +14,6 @@
       "@babel/core": "^7.26.0",
       "@babel/preset-env": "^7.26.0",
       "@babel/preset-react": "^7.26.3",
-      "@babel/plugin-transform-runtime": "^7.25.9",
       "babel-loader": "^9.2.1",
       "copy-webpack-plugin": "^12.0.2",
       "css-loader": "^7.1.2",

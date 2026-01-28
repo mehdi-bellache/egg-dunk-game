@@ -30,4 +30,3 @@ tp3$  npm run dev-server
 
 Expliquez ici comment exécuter votre projet. Vous pouvez également ajouter toute précision utile sur votre travail.
 
-### Travail réalisé

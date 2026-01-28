@@ -13,6 +13,8 @@ export default class Game {
    get canvas() {
       return this.#canvas;
    }
+
+   // à compléter
 }
 
 
