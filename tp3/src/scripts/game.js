@@ -15,7 +15,6 @@ export default class Game {
     #rockets ;
     #eggTimer ;
     #rocketTimer ;
-    #score
 
 
     constructor(canvas) {
@@ -26,8 +25,6 @@ export default class Game {
         this.#rockets = [] ; 
         this.#eggTimer = null ;
         this.#rocketTimer = null ;
-        this.#score = 0 ;
-
     }
 
    /** donne accès au canvas correspondant à la zone de jeu */
@@ -103,27 +100,25 @@ export default class Game {
 
 
     addEgg(){
-        const x = this.alea(this.#canvas.width) ;
-        const y = -2 ;
+        const x = this.alea(this.#canvas.width) ; // ici il ya un problem
+        const y = 0 ;
         this.#eggs.push(new Egg(x, y)) ;
-    }
-
-    addRocket(){
-        let x = -2 ;
-        const y = this.alea(this.#canvas.height) ;
-        this.#rockets.push( new Rocket(x, y)) ;
     }
 
     // addRocket(){
     //     let x = 0 ;
     //     const y = this.alea(this.#canvas.height) ;
-    //     const rocket = new Rocket(0, y) ;
-    //     if(rocket.getDeltaX() == 6){
-    //         x = this.#canvas.width ;
-    //         rocket.setX(x);
-    //     }
-    //     this.#rockets.push( rocket) ;
-    //     }
+    //     this.#rockets.push( new Rocket(x, y)) ;
+    // }
+
+    addRocket(){
+        const y = this.alea(this.#canvas.height) ;
+        const rocket = new Rocket(0, y) ;
+        if(rocket.getDeltaX() == -6){
+            rocket.setX(this.#canvas.width);
+        }
+        this.#rockets.push( rocket) ;
+        }
 
     startEggs() {
 
@@ -140,8 +135,8 @@ export default class Game {
     }
 
     updateScore(value){
-        this.#score += value ;
-        document.getElementById("score").textContent = this.#score ;
+        this.#player.incrementScore(value) ;
+        document.getElementById("score").textContent = this.#player.getScore() ;
     }
 
     // je peux faire aussi des methodes qui stop le timer des eggs et des rockets.
@@ -163,9 +158,13 @@ export default class Game {
             if (egg.collisionWith(this.#player)){
                 this.updateScore(100);   
             }}) ;
-        let newEggs = this.#eggs.filter(egg => ! egg.collisionWith(this.#player)) ;
 
-        this.#eggs = newEggs ;
+        const newEggs = this.#eggs.filter(egg => ! egg.collisionWith(this.#player)) ;
+
+        const newNewEggs = newEggs.filter(egg => ! this.#rockets.some(rocket => egg.collisionWith(rocket)));
+        // les oeufs qui ont fait une collision et aussi les oeufs qui sont hors le canvas doivent etre elimines 
+
+        this.#eggs = newNewEggs ;
 
         this.#eggs.map( egg => egg.draw(this.#context));
 
@@ -174,11 +173,15 @@ export default class Game {
         this.#rockets.map(rocket =>  {
             if (rocket.collisionWith(this.#player)){
                 this.updateScore(-500); 
-                this.#player.setLife(-1) ;
-                // if(this.#player.getLife() <= 0){
-                //     alert("Perdu") ;
-                // }  
+                this.#player.decrementLife(1) ;
+                if(this.#player.getLife() <= 0){
+                    alert("Perdu !") ;
+                }  
             }}) ;
+
+        const newRockets = this.#rockets.filter(rocket => ! rocket.collisionWith(this.#player)) ;
+
+        this.#rockets = newRockets ;
 
         this.#rockets.forEach( rocket => 
             rocket.draw(this.#context)) ;

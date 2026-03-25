@@ -6,11 +6,13 @@ export default class Basket extends Mobile{
 
     #moving ;
     #life ;
+    #score ;
 
     constructor(x, y){
         super(x, y, 0, 0, basketImgSrc) ;
         this.#moving =  null ;
         this.#life = 3 ;
+        this.#score = 0 ; 
     }
 
     getMoving(){
@@ -25,8 +27,16 @@ export default class Basket extends Mobile{
         return this.#life ;
     }
 
-    setLife(value){
-        this.#life = value ;
+    getScore(){
+        return this.#score ;
+    }
+
+    decrementLife(){
+        this.#life -= 1 ;
+    }
+
+    incrementScore(value){
+        this.#score += value ; 
     }
 
     moveUp(){
@@ -58,6 +68,5 @@ export default class Basket extends Mobile{
         this.setY(
             Math.max(0, Math.min(box.height - this.getHeight(), this.getY() + this.getDeltaY()))) ;
     }
-
 
 }

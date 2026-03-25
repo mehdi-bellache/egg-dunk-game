@@ -1,29 +1,32 @@
 import Mobile from "./mobile.js" ; 
 
-import rocketImg from "./assets/images/rocket.png" ;
+import rocketImg from "./assets/images/rocket_default.png" ;
+import rocketImgRotated from "./assets/images/rocket_rotated.png" ;
 
 
 export default class Rocket extends Mobile{
 
     constructor(x, y){
-        super(x, y, +6, 0, rocketImg) ; 
-        // this.chooseRandPath() ;
+        super(x, y, 0, 0, null) ; 
+        this.chooseRandPath() ;
     }
 
     alea = (n) => { return Math.floor(Math.random()* n) ; }
 
 
-    // je comprends pas vraiment pourquoi il veut ca le prof (d'apres les consignes qui a donnee)
     chooseRandPath(){
         const randomNumber = this.alea(2) ;
 
-        if( randomNumber === 0 ){ 
-            this.setDeltX(6) ;
-            this.setDeltY(0) ;
+        if(randomNumber == 0 ){
+            this.setDeltaX(+6) ;
+            this.setDeltaY(0) ; 
+            this.setImage(rocketImg) ;
         }
-        else{
-            this.setDeltX(-6) ;
-            this.setDeltY(0) ;
+
+        else{ 
+            this.setDeltaX(-6) ;
+            this.setDeltaY(0) ;
+            this.setImage(rocketImgRotated) ;
         }
     }
 
