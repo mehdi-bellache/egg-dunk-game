@@ -9,14 +9,26 @@ import Game from './game.js';
 const init = () => {
    const canvas = document.getElementById("playfield");
    const game = new Game(canvas);
+   let score = 0 ;
+
 
    const startStopButton = document.getElementById("stopAndStartGame") ;
 
-   startStopButton.addEventListener("click", () => game.animate()  );
+
+   startStopButton.addEventListener("click", () => {  
+      game.animate() ;
+      game.startEggs() ; 
+      game.startRockets() ; 
+   }  );
+
+   window.addEventListener('keydown', game.keyDownActionHandler.bind(game)) ;
+
+   window.addEventListener('keyup', game.keyUpActionHandler.bind(game)) ;
 
 }
 
 init();
+
 
 //
 console.log('le bundle a été généré');

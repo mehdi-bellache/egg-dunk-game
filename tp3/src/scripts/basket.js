@@ -5,33 +5,58 @@ import basketImgSrc from "./assets/images/basket.png" ;
 export default class Basket extends Mobile{
 
     #moving ;
+    #life ;
 
-    constructor(x, y, moving){
+    constructor(x, y){
         super(x, y, 0, 0, basketImgSrc) ;
-        this.#moving =  moving ; 
+        this.#moving =  null ;
+        this.#life = 3 ;
+    }
+
+    getMoving(){
+        return this.#moving ; 
+    }
+
+    setMoving(value){
+        this.#moving = value ;
+    }
+
+    getLife(){
+        return this.#life ;
+    }
+
+    setLife(value){
+        this.#life = value ;
+    }
+
+    moveUp(){
+        this.setDeltaY(-10)  ;
+    }
+
+    moveDown(){
+        this.setDeltaY(+10) ;
+    } 
+
+    moveLeft(){
+        this.setDeltaX(-10) ;
+    }
+
+    moveRight(){
+        this.setDeltaX(+10) ;
+    }
+
+    stopMoving() {
+        this.setDeltaX(0) ;
+        this.setDeltaY(0) ;
     }
 
 
-    // moveUp(){
-    //     this.getDeltaY() = -10 ;
-    // }
+    move(box){
+        this.setX(
+            Math.max(0, Math.min(box.width - this.getWidth(), this.getX() + this.getDeltaX()))) ;
 
-    // moveDown(){
-    //     this.getDeltaY() = +10 ;
-    // } 
-
-    // moveLeft(){
-    //     this.getDeltaX() = +10 ;
-    // }
-
-    // moveRight(){
-    //     this.getDeltaX() = -10 ;
-    // }
-
-
-    move(box) {              // déplace sans sortir des limites de *box*
-        this.x = Math.max(0, Math.min(box.width - this.width, this.x + this.deltaX));
-        this.y = Math.max(0, Math.min(box.height - this.height, this.y + this.deltaY));
+        this.setY(
+            Math.max(0, Math.min(box.height - this.getHeight(), this.getY() + this.getDeltaY()))) ;
     }
 
 
