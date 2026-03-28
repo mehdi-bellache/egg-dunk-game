@@ -12,8 +12,6 @@ export default class Egg extends Mobile{
         this.chooseRandImage() ;
     }
 
-    alea = (n) => { return Math.floor(Math.random()* n) ; }
-
 
     chooseRandImage(){
         const randomNumber = this.alea(3) ;

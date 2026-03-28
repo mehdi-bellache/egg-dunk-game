@@ -11,14 +11,13 @@ export default class Rocket extends Mobile{
         this.chooseRandPath() ;
     }
 
-    alea = (n) => { return Math.floor(Math.random()* n) ; }
 
 
     chooseRandPath(){
         const randomNumber = this.alea(2) ;
 
         if(randomNumber == 0 ){
-            this.setDeltaX(+6) ;
+            this.setDeltaX(6) ;
             this.setDeltaY(0) ; 
             this.setImage(rocketImg) ;
         }

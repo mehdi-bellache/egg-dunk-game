@@ -3,8 +3,6 @@ import Egg from "./egg";
 import Rocket from "./rocket";
 
 
-// ya un autre probleme c'est que si je sors du jeu apres je reviens je voit plusieur fusee avec plusieurs eggs.
-
 // je doit faire la documentation.
 export default class Game {
 
@@ -15,6 +13,8 @@ export default class Game {
     #rockets ;
     #eggTimer ;
     #rocketTimer ;
+    #requeteAnimation ; 
+    #score ;
 
 
     constructor(canvas) {
@@ -25,11 +25,46 @@ export default class Game {
         this.#rockets = [] ; 
         this.#eggTimer = null ;
         this.#rocketTimer = null ;
+        this.#requeteAnimation = null ; 
+        this.#score = 0 ; 
     }
 
    /** donne accès au canvas correspondant à la zone de jeu */
     get canvas() {
         return this.#canvas;
+    }
+
+    get context() {
+        return this.#context;
+    }
+
+    get player() {
+        return this.#player;
+    }
+
+    get eggTimer() {
+        return this.#eggTimer;
+    }
+
+    get rocketTimer() {
+        return this.#rocketTimer;
+    }
+
+    get requestAnimation() {
+        return this.#requeteAnimation;
+    }
+
+    get score(){
+        return this.#score ;
+    }
+
+    incrementScore(value){
+        this.#score += value ; 
+    }
+
+    updateScore(value){
+        this.incrementScore(value) ;
+        document.getElementById("score").textContent = this.#score ;
     }
 
 
@@ -86,67 +121,92 @@ export default class Game {
 
 
     handleMoveKeys() {
-        if (this.#player.getMoving() === 'left')
+        if (this.#player.moving === 'left')
             this.#player.moveLeft();
-        if (this.#player.getMoving() === 'right')
+        if (this.#player.moving === 'right')
             this.#player.moveRight();
-        if(this.#player.getMoving() === 'up')
+        if(this.#player.moving === 'up')
             this.#player.moveUp();
-        if(this.#player.getMoving() === 'down')
+        if(this.#player.moving === 'down')
             this.#player.moveDown();    
     }
     
-    alea = (n) => { return Math.floor(Math.random()* n) ; }
+    alea(n){ return Math.floor(Math.random()* n) ; }
 
 
     addEgg(){
-        const x = this.alea(this.#canvas.width) ; // ici il ya un problem
-        const y = 0 ;
-        this.#eggs.push(new Egg(x, y)) ;
+        const x = this.alea(this.#canvas.width - 65) ; 
+        this.#eggs.push(new Egg(x, 0)) ;
     }
 
-    // addRocket(){
-    //     let x = 0 ;
-    //     const y = this.alea(this.#canvas.height) ;
-    //     this.#rockets.push( new Rocket(x, y)) ;
-    // }
-
     addRocket(){
-        const y = this.alea(this.#canvas.height) ;
+        const y = this.alea(this.#canvas.height - 45) ;
         const rocket = new Rocket(0, y) ;
-        if(rocket.getDeltaX() == -6){
+        if(rocket.deltaX == -6){
             rocket.setX(this.#canvas.width);
         }
         this.#rockets.push( rocket) ;
+    }
+
+    startEggTimer() {
+
+        if(this.#eggTimer === null){
+
+            this.#eggTimer = setInterval(() => {
+                const n = Math.random() ;
+                if (n < 0.75) { this.addEgg(); } }, 1000);
+
         }
 
-    startEggs() {
-
-        this.#eggTimer = setInterval(() => {
-            const n = this.alea(1);
-            if (n < 0.75) { this.addEgg(); } }, 1000);
     }
 
-    startRockets() {
+    startRocketTimer() {
 
-        this.#rocketTimer = setInterval(() => {
-            const n = this.alea(1);
-            if (n < 0.5) { this.addRocket(); } }, 1000);
+        if(this.#rocketTimer === null){
+            this.#rocketTimer = setInterval(() => {
+                const n = Math.random() ;
+                if (n < 0.5) { this.addRocket(); } }, 1000);
+        }
+
     }
 
-    updateScore(value){
-        this.#player.incrementScore(value) ;
-        document.getElementById("score").textContent = this.#player.getScore() ;
+
+    restartGame() {
+
+        if (this.#requeteAnimation !== null) {
+            cancelAnimationFrame(this.#requeteAnimation);
+            this.#requeteAnimation = null;
+        }
+
+        if (this.#eggTimer !== null) {
+            clearInterval(this.#eggTimer);
+            this.#eggTimer = null;
+        }
+
+        if (this.#rocketTimer !== null) {
+            clearInterval(this.#rocketTimer);
+            this.#rocketTimer = null;
+        }
+
+        this.#eggs = [];
+        this.#rockets = [];
+
+        this.#player.setLife(3);
+        this.#player.manageLives() ;
+        this.#player.setX(this.#canvas.width / 2);
+        this.#player.setY(this.#canvas.height / 2);
+
+        this.#score = 0 ;
+        document.getElementById("score").textContent = 0 ;
+
+        this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
     }
 
-    // je peux faire aussi des methodes qui stop le timer des eggs et des rockets.
 
 
-
-
-    // dans animate je supprime pas les eoufs qui sont hors les boards du canvas, peut etre je doit les supprimes.
-    // je doit verifier si je supprime bien les eggs a la fin.
     animate = () => {
+
+        let gameOver = false;
 
         this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
 
@@ -159,14 +219,16 @@ export default class Game {
                 this.updateScore(100);   
             }}) ;
 
-        const newEggs = this.#eggs.filter(egg => ! egg.collisionWith(this.#player)) ;
+        let newEggs = this.#eggs.filter(egg => ! egg.collisionWith(this.#player)) ;
 
-        const newNewEggs = newEggs.filter(egg => ! this.#rockets.some(rocket => egg.collisionWith(rocket)));
-        // les oeufs qui ont fait une collision et aussi les oeufs qui sont hors le canvas doivent etre elimines 
+        newEggs = newEggs.filter(egg => ! this.#rockets.some(rocket => egg.collisionWith(rocket)));
 
-        this.#eggs = newNewEggs ;
+        newEggs = newEggs.filter( egg =>  egg.y <= this.#canvas.height) ;
+
+        this.#eggs = newEggs ;
 
         this.#eggs.map( egg => egg.draw(this.#context));
+
 
         this.#rockets.forEach( rocket => rocket.move(this.#canvas)) ;
 
@@ -174,12 +236,20 @@ export default class Game {
             if (rocket.collisionWith(this.#player)){
                 this.updateScore(-500); 
                 this.#player.decrementLife(1) ;
-                if(this.#player.getLife() <= 0){
-                    alert("Perdu !") ;
+                if(this.#player.life <= 0){
+                    gameOver = true ;
                 }  
             }}) ;
 
-        const newRockets = this.#rockets.filter(rocket => ! rocket.collisionWith(this.#player)) ;
+            if(gameOver){
+            alert("Perdu !");
+            this.restartGame();
+            return;
+        }
+
+        let newRockets = this.#rockets.filter(rocket => ! rocket.collisionWith(this.#player)) ;
+
+        newRockets = newRockets.filter(rocket => rocket.x <= this.#canvas.width && rocket.y >= 0 ) ;
 
         this.#rockets = newRockets ;
 
@@ -189,7 +259,28 @@ export default class Game {
         this.#player.move(this.#canvas) ; 
 
         this.#player.draw(this.#context);
+
+        this.#player.manageLives() ;
+
+        this.#requeteAnimation = window.requestAnimationFrame(this.animate);
         
-        this.requeteAnimation = window.requestAnimationFrame(this.animate);
+    }
+
+
+        /* start the animation or stop it if previously running */
+    startAndStop(){
+        if( this.#requeteAnimation === null){
+            this.startEggTimer() ; 
+            this.startRocketTimer() ; 
+            this.#requeteAnimation = window.requestAnimationFrame(this.animate);
+
+        }
+        else{
+            window.cancelAnimationFrame(this.#requeteAnimation);
+            this.#requeteAnimation = null ; 
+            clearInterval(this.#eggTimer);
+            clearInterval(this.#rocketTimer);
+        }
+
     }
 }

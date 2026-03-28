@@ -6,37 +6,32 @@ export default class Basket extends Mobile{
 
     #moving ;
     #life ;
-    #score ;
 
     constructor(x, y){
         super(x, y, 0, 0, basketImgSrc) ;
         this.#moving =  null ;
         this.#life = 3 ;
-        this.#score = 0 ; 
     }
 
-    getMoving(){
+    get moving(){
         return this.#moving ; 
     }
+    
+    get life(){
+        return this.#life ;
+    }
+
 
     setMoving(value){
         this.#moving = value ;
     }
 
-    getLife(){
-        return this.#life ;
-    }
-
-    getScore(){
-        return this.#score ;
+    setLife(value){
+        this.#life = value ;
     }
 
     decrementLife(){
         this.#life -= 1 ;
-    }
-
-    incrementScore(value){
-        this.#score += value ; 
     }
 
     moveUp(){
@@ -60,13 +55,41 @@ export default class Basket extends Mobile{
         this.setDeltaY(0) ;
     }
 
-
     move(box){
+
         this.setX(
-            Math.max(0, Math.min(box.width - this.getWidth(), this.getX() + this.getDeltaX()))) ;
+            Math.max(0, Math.min(box.width - this.width, this.x + this.deltaX))) ;
 
         this.setY(
-            Math.max(0, Math.min(box.height - this.getHeight(), this.getY() + this.getDeltaY()))) ;
+            Math.max(0, Math.min(box.height - this.height, this.y + this.deltaY))) ;
     }
+
+    manageLives(){
+        const life1 = document.getElementById("life-1") ;
+        const life2 = document.getElementById("life-2") ;
+        const life3 = document.getElementById("life-3") ;
+
+        if(this.#life === 3){
+            life1.style.visibility = "visible" ;
+            life2.style.visibility = "visible" ;
+            life3.style.visibility = "visible" ;
+        }
+        if(this.#life === 2){
+            life3.style.visibility = "hidden" ;
+        }
+
+        if(this.#life === 1){
+            life3.style.visibility = "hidden" ;
+            life2.style.visibility = "hidden" ;
+        }
+        if(this.#life <= 0){
+            life3.style.visibility = "hidden" ;
+            life2.style.visibility = "hidden" ;
+            life1.style.visibility = "hidden" ;
+        }
+
+
+    }
+
 
 }
