@@ -28,5 +28,21 @@ tp3$  npm run dev-server
 
 ## Votre travail
 
-Expliquez ici comment exécuter votre projet. Vous pouvez également ajouter toute précision utile sur votre travail.
+```
 
+Installation et exécution du projet
+
+Pour installer le projet, il faut d’abord exécuter la commande npm install. Cela permet d’installer toutes les dépendances nécessaires dans le dossier node_modules.
+
+Ensuite, pour générer le projet final, il faut lancer npm run build. Cette commande crée le dossier dist qui contient la version prête à être exécutée.
+
+Une fois le build terminé, il suffit d’ouvrir le dossier dist puis de lancer le fichier index.html. On peut l’ouvrir directement dans un navigateur ou utiliser Live Server. Le jeu se lance automatiquement.
+
+Pendant l’exécution, vous pouvez ouvrir la console du navigateur avec Ctrl + Shift + K pour vérifier que tout fonctionne correctement. Un message confirme que le bundle a bien été généré.
+
+Concernant le projet, j’ai suivi les consignes du professeur. Le code utilise des classes comme Game et Basket, des fonctions classiques pour les methodes et des fonctions fléchées pour les fonctiosn, ainsi que des getters et setters. Le projet est bien structuré et respecte la conception demandée.
+
+J’ai passé du temps sur la conception et la logique du jeu pour obtenir un résultat propre et fonctionnel. Le jeu fonctionne bien et il est jouable sans problème.
+
+Vous pouvez jouer sans problème et profiter du jeu. J’espère que vous apprécierez le fonctionnement, le gameplay et la structure du code.
+```
