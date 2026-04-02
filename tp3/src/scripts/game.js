@@ -202,67 +202,62 @@ export default class Game {
         this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
     }
 
-
-
+    
+    
     animate = () => {
-
-        let gameOver = false;
-
+    
         this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
-
+        
         this.handleMoveKeys() ;
-
+        
         this.#eggs.map( egg => egg.move(this.#canvas) );
-
+        
         this.#eggs.map(egg =>  {
             if (egg.collisionWith(this.#player)){
                 this.updateScore(100);   
             }}) ;
-
-        let newEggs = this.#eggs.filter(egg => ! egg.collisionWith(this.#player)) ;
-
-        newEggs = newEggs.filter(egg => ! this.#rockets.some(rocket => egg.collisionWith(rocket)));
-
-        newEggs = newEggs.filter( egg =>  egg.y <= this.#canvas.height) ;
-
-        this.#eggs = newEggs ;
-
-        this.#eggs.map( egg => egg.draw(this.#context));
-
-
-        this.#rockets.forEach( rocket => rocket.move(this.#canvas)) ;
-
-        this.#rockets.map(rocket =>  {
-            if (rocket.collisionWith(this.#player)){
-                this.updateScore(-500); 
-                this.#player.decrementLife(1) ;
+            
+            let newEggs = this.#eggs.filter(egg => ! egg.collisionWith(this.#player)) ;
+            
+            newEggs = newEggs.filter(egg => ! this.#rockets.some(rocket => egg.collisionWith(rocket)));
+            
+            newEggs = newEggs.filter( egg =>  egg.y <= this.#canvas.height) ;
+            
+            this.#eggs = newEggs ;
+            
+            this.#eggs.map( egg => egg.draw(this.#context));
+            
+            
+            this.#rockets.forEach( rocket => rocket.move(this.#canvas)) ;
+            
+            this.#rockets.forEach(rocket =>  {
+                if (rocket.collisionWith(this.#player)){
+                    this.updateScore(-500); 
+                    this.#player.decrementLife(1) ;
+                }}) ;
+                
+                this.#player.manageLives() ;
+                
                 if(this.#player.life <= 0){
-                    gameOver = true ;
+                    alert("Perdu !");
+                    this.restartGame();
+                    return ;
                 }  
-            }}) ;
-
-            if(gameOver){
-            alert("Perdu !");
-            this.restartGame();
-            return;
-        }
-
-        let newRockets = this.#rockets.filter(rocket => ! rocket.collisionWith(this.#player)) ;
-
-        newRockets = newRockets.filter(rocket => rocket.x <= this.#canvas.width && rocket.y >= 0 ) ;
-
-        this.#rockets = newRockets ;
-
-        this.#rockets.forEach( rocket => 
-            rocket.draw(this.#context)) ;
-
-        this.#player.move(this.#canvas) ; 
-
-        this.#player.draw(this.#context);
-
-        this.#player.manageLives() ;
-
-        this.#requeteAnimation = window.requestAnimationFrame(this.animate);
+                let newRockets = this.#rockets.filter(rocket => ! rocket.collisionWith(this.#player)) ;
+                
+                newRockets = newRockets.filter(rocket => rocket.x <= this.#canvas.width && rocket.y >= 0 ) ;
+                
+                this.#rockets = newRockets ;
+                
+                this.#rockets.forEach( rocket => 
+                    rocket.draw(this.#context)) ;
+                    
+                    this.#player.move(this.#canvas) ; 
+                    
+                    this.#player.draw(this.#context);
+                    
+                    
+                    this.#requeteAnimation = window.requestAnimationFrame(this.animate);
         
     }
 

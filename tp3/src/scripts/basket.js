@@ -64,31 +64,14 @@ export default class Basket extends Mobile{
             Math.max(0, Math.min(box.height - this.height, this.y + this.deltaY))) ;
     }
 
-    manageLives(){
-        const life1 = document.getElementById("life-1") ;
-        const life2 = document.getElementById("life-2") ;
-        const life3 = document.getElementById("life-3") ;
+    manageLives() {
+        const life1 = document.getElementById("life-1");
+        const life2 = document.getElementById("life-2");
+        const life3 = document.getElementById("life-3");
 
-        if(this.#life === 3){
-            life1.style.visibility = "visible" ;
-            life2.style.visibility = "visible" ;
-            life3.style.visibility = "visible" ;
-        }
-        if(this.#life === 2){
-            life3.style.visibility = "hidden" ;
-        }
-
-        if(this.#life === 1){
-            life3.style.visibility = "hidden" ;
-            life2.style.visibility = "hidden" ;
-        }
-        if(this.#life <= 0){
-            life3.style.visibility = "hidden" ;
-            life2.style.visibility = "hidden" ;
-            life1.style.visibility = "hidden" ;
-        }
-
-
+        life1.style.visibility = (this.#life >= 1) ? "visible" : "hidden";
+        life2.style.visibility = (this.#life >= 2) ? "visible" : "hidden";
+        life3.style.visibility = (this.#life >= 3) ? "visible" : "hidden";
     }
 
 
