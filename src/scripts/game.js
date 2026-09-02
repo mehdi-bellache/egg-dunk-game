@@ -224,15 +224,15 @@ export default class Game {
       if (rocket.collisionWith(this.#player)) {
         this.updateScore(-500);
         this.#player.decrementLife(1);
+        this.#player.manageLives();
       }
     });
 
-    let newRockets = this.#rockets.filter(
-      (rocket) => !rocket.collisionWith(this.#player),
-    );
-
-    newRockets = newRockets.filter(
-      (rocket) => rocket.x <= this.#canvas.width && rocket.y >= 0,
+    const newRockets = this.#rockets.filter(
+      (rocket) =>
+        !rocket.collisionWith(this.#player) &&
+        rocket.x <= this.#canvas.width &&
+        rocket.y >= 0,
     );
 
     this.#rockets = newRockets;
@@ -247,10 +247,6 @@ export default class Game {
 
     this.handleEggs();
     this.handleRockets();
-
-    // dans le forEach dedans ou je dois manageLives de player non ?
-
-    this.#player.manageLives();
 
     if (this.#player.life <= 0) {
       alert("Perdu !");
