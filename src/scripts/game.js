@@ -217,16 +217,7 @@ export default class Game {
     this.#eggs.map((egg) => egg.draw(this.#context));
   }
 
-  // animate a plusieurs responsabilite
-  // elle doit etre decoupe
-
-  animate = () => {
-    this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
-
-    this.handleMoveKeys();
-
-    this.handleEggs();
-
+  handleRockets() {
     this.#rockets.forEach((rocket) => rocket.move(this.#canvas));
 
     this.#rockets.forEach((rocket) => {
@@ -236,15 +227,6 @@ export default class Game {
       }
     });
 
-    // dans le forEach dedans ou je dois manageLives de player non ?
-
-    this.#player.manageLives();
-
-    if (this.#player.life <= 0) {
-      alert("Perdu !");
-      this.restartGame();
-      return;
-    }
     let newRockets = this.#rockets.filter(
       (rocket) => !rocket.collisionWith(this.#player),
     );
@@ -256,6 +238,25 @@ export default class Game {
     this.#rockets = newRockets;
 
     this.#rockets.forEach((rocket) => rocket.draw(this.#context));
+  }
+
+  animate = () => {
+    this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
+
+    this.handleMoveKeys();
+
+    this.handleEggs();
+    this.handleRockets();
+
+    // dans le forEach dedans ou je dois manageLives de player non ?
+
+    this.#player.manageLives();
+
+    if (this.#player.life <= 0) {
+      alert("Perdu !");
+      this.restartGame();
+      return;
+    }
 
     this.#player.move(this.#canvas);
 
