@@ -183,11 +183,7 @@ export default class Game {
     this.#eggs = [];
     this.#rockets = [];
 
-    this.#player.setLife(3);
-    this.#player.manageLives();
-    this.#player.setX(this.#canvas.width / 2);
-    this.#player.setY(this.#canvas.height / 2);
-    this.player.stopMoving();
+    this.#player = new Basket(this.#canvas.width / 2, this.#canvas.height / 2);
 
     this.#score = 0;
     document.getElementById("score").textContent = 0;
