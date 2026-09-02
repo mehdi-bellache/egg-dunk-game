@@ -167,18 +167,16 @@ export default class Game {
   }
 
   restartGame() {
-    if (this.#requeteAnimation !== null) {
+    if (
+      this.#requeteAnimation !== null &&
+      this.#eggTimer !== null &&
+      this.#rocketTimer !== null
+    ) {
       cancelAnimationFrame(this.#requeteAnimation);
-      this.#requeteAnimation = null;
-    }
-
-    if (this.#eggTimer !== null) {
       clearInterval(this.#eggTimer);
-      this.#eggTimer = null;
-    }
-
-    if (this.#rocketTimer !== null) {
       clearInterval(this.#rocketTimer);
+      this.#requeteAnimation = null;
+      this.#eggTimer = null;
       this.#rocketTimer = null;
     }
 
@@ -187,11 +185,9 @@ export default class Game {
 
     this.#player.setLife(3);
     this.#player.manageLives();
-    // je dois set le delta x et delta y.
-    this.player.setDeltaX(0);
-    this.player.setDeltaY(0);
     this.#player.setX(this.#canvas.width / 2);
     this.#player.setY(this.#canvas.height / 2);
+    this.player.stopMoving();
 
     this.#score = 0;
     document.getElementById("score").textContent = 0;
@@ -199,11 +195,7 @@ export default class Game {
     this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
   }
 
-  animate = () => {
-    this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
-
-    this.handleMoveKeys();
-
+  handleEggs() {
     this.#eggs.map((egg) => egg.move(this.#canvas));
 
     this.#eggs.map((egg) => {
@@ -223,6 +215,17 @@ export default class Game {
     this.#eggs = newEggs;
 
     this.#eggs.map((egg) => egg.draw(this.#context));
+  }
+
+  // animate a plusieurs responsabilite
+  // elle doit etre decoupe
+
+  animate = () => {
+    this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
+
+    this.handleMoveKeys();
+
+    this.handleEggs();
 
     this.#rockets.forEach((rocket) => rocket.move(this.#canvas));
 
@@ -232,6 +235,8 @@ export default class Game {
         this.#player.decrementLife(1);
       }
     });
+
+    // dans le forEach dedans ou je dois manageLives de player non ?
 
     this.#player.manageLives();
 
