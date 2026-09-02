@@ -184,6 +184,7 @@ export default class Game {
     this.#rockets = [];
 
     this.#player = new Basket(this.#canvas.width / 2, this.#canvas.height / 2);
+    this.#player.manageLives();
 
     this.#score = 0;
     document.getElementById("score").textContent = 0;
@@ -233,6 +234,9 @@ export default class Game {
 
     this.#rockets.forEach((rocket) => rocket.draw(this.#context));
   }
+
+  // avant que le match termine je dois effacer le dernier fusil apres la ou je dois afficher le message perdu.
+  // et bien sur apres recommencer le jeu je dois afficher les trois fusil.
 
   animate = () => {
     this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
