@@ -235,8 +235,18 @@ export default class Game {
     this.#rockets.forEach((rocket) => rocket.draw(this.#context));
   }
 
+  handlePlayer() {
+    if (this.#player.life <= 0) {
+      alert("Perdu !");
+      this.restartGame();
+      return;
+    }
+
+    this.#player.move(this.#canvas);
+    this.#player.draw(this.#context);
+  }
+
   // avant que le match termine je dois effacer le dernier fusil apres la ou je dois afficher le message perdu.
-  // et bien sur apres recommencer le jeu je dois afficher les trois fusil.
 
   animate = () => {
     this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
@@ -245,16 +255,7 @@ export default class Game {
 
     this.handleEggs();
     this.handleRockets();
-
-    if (this.#player.life <= 0) {
-      alert("Perdu !");
-      this.restartGame();
-      return;
-    }
-
-    this.#player.move(this.#canvas);
-
-    this.#player.draw(this.#context);
+    this.handlePlayer();
 
     this.#requeteAnimation = window.requestAnimationFrame(this.animate);
   };
