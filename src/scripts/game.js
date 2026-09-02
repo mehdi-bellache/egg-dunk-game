@@ -196,25 +196,23 @@ export default class Game {
   }
 
   handleEggs() {
-    this.#eggs.map((egg) => egg.move(this.#canvas));
+    this.#eggs.forEach((egg) => egg.move(this.#canvas));
 
-    this.#eggs.map((egg) => {
+    this.#eggs.forEach((egg) => {
       if (egg.collisionWith(this.#player)) {
         this.updateScore(100);
       }
     });
 
-    let newEggs = this.#eggs.filter((egg) => !egg.collisionWith(this.#player));
-
-    newEggs = newEggs.filter(
-      (egg) => !this.#rockets.some((rocket) => egg.collisionWith(rocket)),
+    const newEggs = this.#eggs.filter(
+      (egg) =>
+        !egg.collisionWith(this.#player) &&
+        !this.#rockets.some((rocket) => egg.collisionWith(rocket)) &&
+        egg.y <= this.#canvas.height,
     );
-
-    newEggs = newEggs.filter((egg) => egg.y <= this.#canvas.height);
-
     this.#eggs = newEggs;
 
-    this.#eggs.map((egg) => egg.draw(this.#context));
+    this.#eggs.forEach((egg) => egg.draw(this.#context));
   }
 
   handleRockets() {
