@@ -13,6 +13,7 @@ export default class Game {
   #rocketTimer;
   #requeteAnimation;
   #score;
+  #isGameOver;
 
   constructor(canvas) {
     this.#canvas = canvas;
@@ -24,6 +25,7 @@ export default class Game {
     this.#rocketTimer = null;
     this.#requeteAnimation = null;
     this.#score = 0;
+    this.#isGameOver = false;
   }
 
   /** donne accès au canvas correspondant à la zone de jeu */
@@ -166,6 +168,8 @@ export default class Game {
     }
   }
 
+  // dans le restart game doit etre declanche quand le joueur clique sur le boutton start.
+
   restartGame() {
     if (
       this.#requeteAnimation !== null &&
@@ -237,8 +241,13 @@ export default class Game {
 
   handlePlayer() {
     if (this.#player.life <= 0) {
-      alert("Perdu !");
-      this.restartGame();
+      this.#player.manageLives();
+      window.cancelAnimationFrame(this.#requeteAnimation);
+
+      setTimeout(() => {
+        alert("Game Over !");
+        this.restartGame();
+      }, 50);
       return;
     }
 
@@ -246,7 +255,7 @@ export default class Game {
     this.#player.draw(this.#context);
   }
 
-  // avant que le match termine je dois effacer le dernier fusil apres la ou je dois afficher le message perdu.
+  // avant que le match termine je dois effacer le dernier fusil apres je dois afficher le message perdu.
 
   animate = () => {
     this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
