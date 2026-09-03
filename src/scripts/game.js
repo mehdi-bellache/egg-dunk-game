@@ -254,7 +254,7 @@ export default class Game {
 
   handlePlayer() {
     if (this.#player.life <= 0) {
-      odjbo();
+      this.triggerGameOver();
     }
     this.#player.move(this.#canvas);
     this.#player.draw(this.#context);
