@@ -235,21 +235,27 @@ export default class Game {
     this.#rockets.forEach((rocket) => rocket.draw(this.#context));
   }
 
+  triggerGameOver() {
+    if (this.#isGameOver) return;
+
+    this.#isGameOver = true;
+
+    this.#player.manageLives();
+    this.#player.draw(this.#context);
+
+    window.cancelAnimationFrame(this.#requeteAnimation);
+
+    setTimeout(() => {
+      alert("Game Over !");
+      this.restartGame();
+    }, 50);
+    return;
+  }
+
   handlePlayer() {
     if (this.#player.life <= 0) {
-      if (this.#isGameOver) return;
-
-      this.#isGameOver = true;
-      this.#player.manageLives();
-      window.cancelAnimationFrame(this.#requeteAnimation);
-
-      setTimeout(() => {
-        alert("Game Over !");
-        this.restartGame();
-      }, 50);
-      return;
+      odjbo();
     }
-
     this.#player.move(this.#canvas);
     this.#player.draw(this.#context);
   }
