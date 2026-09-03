@@ -171,18 +171,14 @@ export default class Game {
   // dans le restart game doit etre declanche quand le joueur clique sur le boutton start.
 
   restartGame() {
-    if (
-      this.#requeteAnimation !== null &&
-      this.#eggTimer !== null &&
-      this.#rocketTimer !== null
-    ) {
-      cancelAnimationFrame(this.#requeteAnimation);
-      clearInterval(this.#eggTimer);
-      clearInterval(this.#rocketTimer);
-      this.#requeteAnimation = null;
-      this.#eggTimer = null;
-      this.#rocketTimer = null;
-    }
+    this.#isGameOver = false;
+
+    cancelAnimationFrame(this.#requeteAnimation);
+    clearInterval(this.#eggTimer);
+    clearInterval(this.#rocketTimer);
+    this.#requeteAnimation = null;
+    this.#eggTimer = null;
+    this.#rocketTimer = null;
 
     this.#eggs = [];
     this.#rockets = [];
@@ -241,6 +237,9 @@ export default class Game {
 
   handlePlayer() {
     if (this.#player.life <= 0) {
+      if (this.#isGameOver) return;
+
+      this.#isGameOver = true;
       this.#player.manageLives();
       window.cancelAnimationFrame(this.#requeteAnimation);
 
