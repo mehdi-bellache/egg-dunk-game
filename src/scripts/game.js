@@ -284,10 +284,10 @@ export default class Game {
     } else {
       window.cancelAnimationFrame(this.#requeteAnimation);
       this.#requeteAnimation = null;
-      this.#eggTimer = null;
-      this.#rocketTimer = null;
       clearInterval(this.#eggTimer);
       clearInterval(this.#rocketTimer);
+      this.#rocketTimer = null;
+      this.#eggTimer = null;
     }
   }
 }
