@@ -260,8 +260,6 @@ export default class Game {
     this.#player.draw(this.#context);
   }
 
-  // avant que le match termine je dois effacer le dernier fusil apres je dois afficher le message perdu.
-
   animate = () => {
     this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
 
@@ -274,6 +272,9 @@ export default class Game {
     this.#requeteAnimation = window.requestAnimationFrame(this.animate);
   };
 
+  // quand je clique trop sur le boutton start les oeufs et les fusils n'affichent pas ?
+  // le problem je pense vient de la fonction startAndStop.
+
   /* start the animation or stop it if previously running */
   startAndStop() {
     if (this.#requeteAnimation === null) {
@@ -283,6 +284,8 @@ export default class Game {
     } else {
       window.cancelAnimationFrame(this.#requeteAnimation);
       this.#requeteAnimation = null;
+      this.#eggTimer = null;
+      this.#rocketTimer = null;
       clearInterval(this.#eggTimer);
       clearInterval(this.#rocketTimer);
     }
