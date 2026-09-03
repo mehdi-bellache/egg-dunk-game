@@ -130,15 +130,14 @@ export default class Game {
     return Math.floor(Math.random() * n);
   }
 
-  // add egg n'est pas bien
   addEgg() {
-    const x = this.alea(this.#canvas.width - 65);
+    const x = this.alea(this.#canvas.width - this.#player.width);
     this.#eggs.push(new Egg(x, 0));
   }
 
-  // meme chose pour addRocket
   addRocket() {
-    const y = this.alea(this.#canvas.height - 45);
+    const heightEdge = 45;
+    const y = this.alea(this.#canvas.height - this.#player.height);
     const rocket = new Rocket(0, y);
     if (rocket.deltaX == -6) {
       rocket.setX(this.#canvas.width);
@@ -167,8 +166,6 @@ export default class Game {
       }, 1000);
     }
   }
-
-  // dans le restart game doit etre declanche quand le joueur clique sur le boutton start.
 
   restartGame() {
     this.#isGameOver = false;
@@ -271,9 +268,6 @@ export default class Game {
 
     this.#requeteAnimation = window.requestAnimationFrame(this.animate);
   };
-
-  // quand je clique trop sur le boutton start les oeufs et les fusils n'affichent pas ?
-  // le problem je pense vient de la fonction startAndStop.
 
   /* start the animation or stop it if previously running */
   startAndStop() {
