@@ -2,7 +2,6 @@ import Basket from "./basket";
 import Egg from "./egg";
 import Rocket from "./rocket";
 
-// je doit faire la documentation.
 export default class Game {
   #canvas;
   #context;
