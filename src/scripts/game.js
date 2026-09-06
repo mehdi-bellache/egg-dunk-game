@@ -94,23 +94,27 @@ export default class Game {
     switch (event.key) {
       case "ArrowLeft":
       case "Left":
-        this.#player.setMoving(null);
-        this.#player.stopMoving();
+        if (this.#player.moving === "left") {
+          this.#player.setMoving(null);
+        }
         break;
       case "ArrowRight":
       case "Right":
-        this.#player.setMoving(null);
-        this.#player.stopMoving();
+        if (this.#player.moving === "right") {
+          this.#player.setMoving(null);
+        }
         break;
       case "ArrowUp":
       case "Up":
-        this.#player.setMoving(null);
-        this.#player.stopMoving();
+        if (this.#player.moving === "up") {
+          this.#player.setMoving(null);
+        }
         break;
       case "ArrowDown":
       case "Down":
-        this.#player.setMoving(null);
-        this.#player.stopMoving();
+        if (this.#player.moving === "down") {
+          this.#player.setMoving(null);
+        }
         break;
       default:
         return;
@@ -118,8 +122,8 @@ export default class Game {
     event.preventDefault();
   }
 
-  // on fait else if c'est mieux non ?
   handleMoveKeys() {
+    this.#player.stopMoving();
     if (this.#player.moving === "left") this.#player.moveLeft();
     if (this.#player.moving === "right") this.#player.moveRight();
     if (this.#player.moving === "up") this.#player.moveUp();
@@ -136,7 +140,6 @@ export default class Game {
   }
 
   addRocket() {
-    const heightEdge = 45;
     const y = this.alea(this.#canvas.height - this.#player.height);
     const rocket = new Rocket(0, y);
     if (rocket.deltaX == -6) {
