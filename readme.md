@@ -41,7 +41,7 @@ Rockets randomly launch from the left and right sides of the canvas. If a rocket
 - Mathematical collision detection between the player, eggs, and rockets, as well as custom movement mechanics.
 - Spawn rates: 75% chance (0.75) for eggs and 50% chance (0.5) for rockets.
 
-Play online: [Click here](https://example.com)
+Play online: [Click here](https://egg-dunk-game.onrender.com)
 
 ---
 
